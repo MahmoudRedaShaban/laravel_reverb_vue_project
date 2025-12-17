@@ -1,4 +1,5 @@
 <script setup>
+import CreatePost from '@/components/CreatePost.vue';
 import Header from '@/components/Header.vue';
 import PostsIndex from '@/components/PostsIndex.vue';
 import useAuth from '@/composables/useAuth';
@@ -25,6 +26,7 @@ onMounted(()=>{
          
         <!-- Posts Section -->
         <div class="w-full max-w-4xl">
+            <CreatePost />
            <PostsIndex />
         </div>
     </div>
