@@ -26,7 +26,7 @@ onMounted(()=>{
          
         <!-- Posts Section -->
         <div class="w-full max-w-4xl">
-            <CreatePost />
+            <CreatePost  />
            <PostsIndex />
         </div>
     </div>

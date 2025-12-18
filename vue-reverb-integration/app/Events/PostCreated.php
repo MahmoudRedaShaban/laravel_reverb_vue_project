@@ -17,13 +17,14 @@ class PostCreated implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct(public $postID=1)
     {
         //
     }
     public function broadcastWith()
     {
         return [
+            "id"=>$this->postID,
             'title' => 'this is new post',
             'body' => 'this is body of post '
         ];

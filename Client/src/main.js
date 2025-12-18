@@ -5,10 +5,10 @@ import router from './router';
 import axios from 'axios';
 import './main.css'
 import useAuth from './composables/useAuth';
-
+import {createPinia} from 'pinia';
 axios.defaults.baseURL = "http://project.test";
 
-
+const pinia = createPinia();
 
 const app =createApp(App);
 const {attemp} = useAuth();
@@ -17,10 +17,11 @@ const {attemp} = useAuth();
 
 app.use(router);
 app.use(echo);
-
+app.use(pinia);
 
 attemp().then(() => {
     app.mount('#app');
 }).catch(()=>{
     app.mount('#app');
+    router.push('/login');
 })

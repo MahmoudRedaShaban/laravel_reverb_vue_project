@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostCreated;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
@@ -36,7 +37,7 @@ class PostController extends Controller
             "body" => strip_tags($request->body),
             "user_id" => auth()->id()
         ]);
-
+        broadcast(new PostCreated($post->id))->toOthers();
         return PostResource::make($post);
     }
 

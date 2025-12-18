@@ -9,7 +9,7 @@
             </div>
         </div>
         <p class="mb-4 text-gray-800">{{ post.body }}</p>
-        <button @click="$emit('view-more')" class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">More Posts</button>
+        <button   class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">More Posts</button>
     </div>
 </template>
 

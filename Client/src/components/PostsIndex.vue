@@ -2,41 +2,35 @@
 
 import PostCard from './PostCard.vue';
 import usePost from '@/composables/usePost';
+import { usePostStore } from '@/stores/usePostStore';
 import { useIntersectionObserver } from '@vueuse/core';
 import { onMounted, ref, useTemplateRef} from 'vue';
-
-const {posts, fetchPosts, fetchNextpost} = usePost();
-const page = ref(2);
-
+const  postStore = usePostStore();
 
 const allposts = ref([]);
 const target = useTemplateRef('target');
 onMounted(async ()=>{
-    await fetchPosts()
-   allposts.value = posts.value;
+    await postStore.fetchPosts()
+   allposts.value = postStore.posts;
 })
  
 const { stop } = useIntersectionObserver(target, ([{isIntersecting}]) => {
     
-    if(isIntersecting){
-        fetchNextpost(page.value);
-        allposts.value = posts.value;
-        page.value += 1;
-        console.log(page.value);
+    if(isIntersecting && postStore.isloaded){
+        postStore.fetchNextpost(postStore.page);
+        allposts.value = postStore.posts;
+        postStore.page += 1;
+        console.log(postStore.page);
     }
 })
 
-
-
 const handleViewMore = () => {
     console.log("OK");
-    
 }
-
 </script>
 <template>
     <div style="display: block;">
-        <PostCard v-for="post in allposts" :key="post.id" :post="post" @view-more="handleViewMore" />
+        <PostCard v-for="post in allposts" :key="post.id" :post="post" @view-more="handleViewMore"  />
         <div ref="target" class="-translate-x-20"></div>
     </div>
 </template>
