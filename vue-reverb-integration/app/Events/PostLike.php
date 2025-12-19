@@ -3,7 +3,7 @@
 namespace App\Events;
 
 use App\Http\Resources\PostResource;
-use App\Http\Resources\UserResource;
+use App\Models\Post;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -13,19 +13,21 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PostCreated implements ShouldBroadcastNow
+class PostLike implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
     /**
      * Create a new event instance.
      */
-    public function __construct(public $post)
+    public function __construct(public int $postid)
     {
         //
     }
+
     public function broadcastWith()
     {
-        return PostResource::make($this->post)->resolve();
+        return PostResource::make(Post::find($this->postid))->toArray(request());
     }
 
     /**
@@ -36,7 +38,7 @@ class PostCreated implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new Channel('posts'),
+            new Channel('posts.'.$this->postid),
         ];
     }
 }

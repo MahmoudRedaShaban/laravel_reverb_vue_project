@@ -18,12 +18,16 @@
 
 <script setup>
 import useAuth from '@/composables/useAuth';
+import router from '@/router';
 
     const {authenticated, user, logout} = useAuth();
 
     const logoutHandel = async() => {
-        await logout();
-        window.location.reload()
+        try{
+            await logout();
+        }finally{
+            router.push('/login');
+        }
     }
 
 
