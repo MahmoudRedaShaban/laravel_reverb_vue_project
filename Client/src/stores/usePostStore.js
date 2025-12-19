@@ -52,7 +52,20 @@ export const usePostStore = defineStore('post', {
                 
             }
          },
+         async updatePost(postId, formData={}){
+            try {
+                const response = await axios.put(`/api/posts/${postId}/like`,formData, {
+                    headers:{
+                                "X-Socket-Id": Echo.socketId(), 
+                            },
+                });
+                this.postupdateLikes(response.data.data);
 
+            } catch (error) {
+                console.log(error);
+                
+            }
+         },
          removePostFromStore(postId){
             this.posts = this.posts.filter((post)=> post.id != postId);
          },
@@ -63,7 +76,9 @@ export const usePostStore = defineStore('post', {
                 return;
             }
             this.posts = [post, ...this.posts];
-
+        },
+        postupdateLikes(post){
+            this.posts.find((item) => item.id == post.id).likes = post.likes;
         }
     }
 });
